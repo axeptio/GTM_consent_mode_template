@@ -15,5 +15,5 @@
 homepage: "https://www.axept.io/"
 documentation: "https://support.axeptio.eu/hc/en-gb/articles/9263604989457"
 versions:
-  - sha: 5f02a788b90ae804f86b04aa24af8937e567874a
+  - sha: 3da15dbe2a02435eb98f728a72de56848d7b3329
     changeNotes: Initial Version

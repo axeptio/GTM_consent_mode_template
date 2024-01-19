@@ -15,5 +15,9 @@
 homepage: "https://www.axept.io/"
 documentation: "https://support.axeptio.eu/hc/en-gb/articles/9263604989457"
 versions:
+  #Latest version
+  - sha: 8b2237f7bd52ebe7e37f6b350b8f5e411949e0fb
+    changeNotes: Added Consent Mode V2 parameters
+  #Older versions
   - sha: 3da15dbe2a02435eb98f728a72de56848d7b3329
     changeNotes: Initial Version

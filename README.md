@@ -1,4 +1,4 @@
-# GTM_consent_mode_template
+# GTM_consent_mode_template aka Axeptio Consent Mode v2
 
 ⚠️ **This Google Tag Manager template is deprecated.**
 

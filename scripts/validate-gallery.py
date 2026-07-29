@@ -91,12 +91,15 @@ def warn(check: str, detail: str) -> None:
     warnings.append(f"{check}: {detail}")
 
 
-def git(*args: str) -> subprocess.CompletedProcess:
-    """Run a git command, or None if git is unusable.
+def git(*args: str) -> subprocess.CompletedProcess | None:
+    """Run a git command; None means git itself is unusable.
 
     Contributors run this locally on whatever machine they have. Letting a missing
     git binary surface as a FileNotFoundError traceback would bury the real problem,
     so callers get None and report it as a check failure instead.
+
+    Only check_git_available() has to handle None. It runs first and aborts the whole
+    script when git is unusable, so every later caller can dereference the result.
     """
     try:
         return subprocess.run(("git",) + args, capture_output=True, text=True)

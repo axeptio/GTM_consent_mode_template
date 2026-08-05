@@ -65,45 +65,39 @@ This protocol applies when ending a Beads implementation workflow. It is subordi
 
 ## Architecture Overview
 
-This repo is **not an application**, and it is **deprecated**. It is the public source for the
-"Axeptio Consent Mode v2" GTM custom template, superseded by the "Axeptio CMP" template at
+This repo is **not an application**, it is **deprecated**, and **it no longer contains a
+template**. It was the public source for the "Axeptio Consent Mode v2" GTM custom template,
+superseded by the "Axeptio CMP" template at
 [axeptio/axeptio-gtm-public-template](https://github.com/axeptio/axeptio-gtm-public-template).
-One file is the product:
 
-- **`template.tpl`** — the GTM custom template: `___INFO___`, `___TEMPLATE_PARAMETERS___`,
-  `___SANDBOXED_JS_FOR_WEB_TEMPLATE___`, `___WEB_PERMISSIONS___` and `___TESTS___` blocks in
-  Google's own format. It is UTF-8 **with a BOM** — read it as `utf-8-sig` or the first marker is
-  corrupted. Its `___TERMS_OF_SERVICE___` header is Google's mandatory gallery boilerplate —
-  **never edit it**.
+`template.tpl`, `metadata.yaml`, `scripts/validate-gallery.py` and the `Validate gallery contract`
+workflow have all been deleted. All of them are recoverable from tag `v1.0.1`. What remains is
+licensing (`LICENSE`, `CONTRIBUTING.md`), release automation (`.github/workflows/`,
+`release-please-config.json`) and agent tooling (`.beads/`).
 
-There is deliberately **no `metadata.yaml`**. Deleting it (commit `e64c746`) is the sanctioned way
-to remove a template from the
-[Community Template Gallery](https://developers.google.com/tag-platform/tag-manager/templates/gallery),
-and this template is intentionally delisted. Do not recreate the file except as part of a
-deliberate resubmission decision.
+**Do not recreate any of the deleted files** without a deliberate decision to resubmit the
+template to the gallery — the deletions are what forced it out.
 
-Everything else is licensing (`LICENSE`, `CONTRIBUTING.md`), release automation
-(`.github/workflows/`, `scripts/`, `release-please-config.json`) or agent tooling (`.beads/`).
+Why two deletions were needed: removing `metadata.yaml` (commit `e64c746`, March 2026) is
+documented by Google as the way to delist a template, and it **did not work**. Verified 2026-08-05:
+the gallery reported `Current Status: Available` at `8b2237f7` (February 2025), with
+`The metadata.yaml file was not found` at the top of its sync log. It detects the missing file,
+fails the sync, and keeps serving the last commit it read. Deleting `template.tpl` breaks the
+required repository structure, which is the remaining documented trigger. See
+[docs/release-automation.md](docs/release-automation.md).
 
 ## Build & Test
 
-There is **no build, no compile, and no test runner** — nothing to install beyond PyYAML.
-Validation is by inspection plus these checks:
+There is **no build, no compile, and no test runner**, and since the gallery validator was removed,
+nothing to install either. Validation is by inspection plus:
 
 ```bash
-python3 scripts/validate-gallery.py                                  # expect OK + 2 warnings
 python3 -c "import json; json.load(open('release-please-config.json'))"
 python3 -c "import json; json.load(open('.release-please-manifest.json'))"
 node --check commitlint.config.mjs
 ```
 
-`validate-gallery.py` runs in **delisted mode** here: the missing `metadata.yaml` and the missing
-`categories` in `___INFO___` are warnings, while the LICENSE rules and the `___INFO___` structural
-rules still fail the build. Restoring `metadata.yaml` re-arms the full contract automatically.
-CI runs it on every PR **and** on pushes to `master`.
-
-To exercise the template itself, import `template.tpl` into a GTM container and use the
-**Tests** tab (the `___TESTS___` block — currently empty, `scenarios: []`).
+CI is down to `Lint commits` (every PR) and `Release` (pushes to `master`).
 
 ## Conventions & Patterns
 
@@ -116,10 +110,11 @@ To exercise the template itself, import `template.tpl` into a GTM container and 
   generated. See [docs/release-automation.md](docs/release-automation.md). The versioning baseline
   is the `v1.0.0` tag at `4ea6d9d`; the twelve commits below it predate this pipeline and are not
   conventional.
-- **Do not change `LICENSE`.** The gallery requires it to contain **only** Apache 2.0 and removes
-  a template whose licence does not match — replacing it with Axeptio's proprietary terms is what
-  caused SUP-1008 on the sibling repository. The constraint is kept here so the repo stays
-  resubmittable.
+- **Do not change `LICENSE`.** The gallery removes a template whose licence is not Apache-2.0-only
+  — replacing it with Axeptio's proprietary terms is what caused SUP-1008 on the sibling
+  repository. Nothing enforces this any more now that the validator is gone, so it rests on
+  review. Keeping it intact is also what let `template.tpl` be the file deleted to force
+  delisting, rather than the licence.
 - **No metadata-sync release step.** The sibling repo's `Release` workflow has a tail that
   regenerates `metadata.yaml` and pushes a GPG-signed commit. It does not apply here and must not
   be ported; this repo needs only `BOT_GITHUB_TOKEN`, not `BOT_GPG_PRIVATE_KEY`.

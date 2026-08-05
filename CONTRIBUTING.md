@@ -30,29 +30,22 @@ information on using pull requests.
 
 ## Gallery status
 
-This template was **delisted** from the Community Template Gallery by deleting `metadata.yaml`
-(commit `e64c746`), which is the sanctioned way to remove a template. There is therefore no
-published `versions:` history to maintain.
+`metadata.yaml` was deleted in `e64c746` (March 2026) to remove this template from the Community
+Template Gallery. **That did not delist it.** The gallery detected the missing file, logged
+`The metadata.yaml file was not found`, failed the sync, and kept serving the template at the last
+commit it had read successfully (`8b2237f`, February 2025) — still installable, with a dead
+documentation link.
 
-A CI check, `Validate gallery contract`, still runs on every pull request and on pushes to
-`master`. Run it yourself before touching `LICENSE` or `template.tpl`:
+`template.tpl` was therefore deleted too, breaking the repository structure the gallery requires.
+The template file remains in the history and at tag `v1.0.1`.
 
-```bash
-pip install pyyaml          # one-time; the script needs Python 3.7+
-python3 scripts/validate-gallery.py
-```
+With no template left to check, `scripts/validate-gallery.py` and its `Validate gallery contract`
+workflow were removed in the same change. If the template is ever restored, recover both from
+tag `v1.0.1` — the script's `LISTED` flag already handles the listed and delisted cases, and
+restoring `metadata.yaml` re-arms the full contract automatically.
 
-It reports every violation at once. In the current delisted state it exits 0 with two warnings
-(no `metadata.yaml`, no `categories` in `___INFO___`). The rules that still fail the build:
-
-- **`LICENSE` must contain *only* Apache 2.0**, at the repository root, with all-caps casing.
-- **exactly one `template.tpl`**, at the repository root.
-- **`___INFO___` must be valid JSON**, and any `categories` present must be 1–3 values from
-  Google's list.
-
-Restoring `metadata.yaml` re-arms the full contract automatically — including the checks that
-every `versions[].sha` is a real commit on `master`, newest first, under a `# Latest version`
-marker. Never edit that list by hand; it is generated on release.
+**`LICENSE` must still contain only Apache 2.0.** Nothing enforces that any more, so it now rests
+on review.
 
 ## Commit & pull request conventions
 

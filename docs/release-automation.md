@@ -48,26 +48,36 @@ release from the newest `v*` tag, so it never looks at the twelve legacy commits
   `.release-please-manifest.json`. Merging that PR tags the commit and publishes a GitHub
   Release. That is the whole workflow — a single step.
 
-- **`.github/workflows/validate-gallery.yml`** (`Validate gallery contract`) — runs
-  `scripts/validate-gallery.py` on every PR and on pushes to `master`. See below.
+The `Validate gallery contract` workflow ran here too, until the template was removed — see below.
 
-## Gallery status: delisted
+## Gallery status: delisted the hard way
 
-The template was removed from the
-[Community Template Gallery](https://developers.google.com/tag-platform/tag-manager/templates/gallery)
-by deleting `metadata.yaml` (commit `e64c746`), which is the sanctioned way to delist. That file
-was the gallery's published version history — a `versions:` list of commit SHAs — so there is
-nothing left to sync on release.
+`metadata.yaml` was deleted in `e64c746` (March 2026) on the understanding, taken from Google's own
+[documentation](https://developers.google.com/tag-platform/tag-manager/templates/gallery), that
+this removes a template from the gallery.
 
-This is the one place this repository deliberately differs from its sibling
-`axeptio/axeptio-gtm-public-template`, whose `Release` workflow has a tail that regenerates
-`metadata.yaml` and pushes a GPG-signed sync commit. **Do not port that step here.** As a
-consequence this repository needs only `BOT_GITHUB_TOKEN`, not `BOT_GPG_PRIVATE_KEY`.
+**It does not.** Verified on 2026-08-05: the gallery's status page reported
+`Current Status: Available` with `Current Version: 8b2237f7` (February 2025), and a sync log whose
+newest entry read `The metadata.yaml file was not found`, followed by
+`master — GitHub returned an error`. Google detects the missing file, fails the sync, and then goes
+on serving the last commit it read successfully. The template stayed installable, advertising a
+documentation URL that 404s — which is what issue #1 reported, and what nobody acted on for two and
+a half years.
 
-`scripts/validate-gallery.py` still runs, in "delisted mode": the absence of `metadata.yaml` and
-the missing `categories` in `___INFO___` are reported as warnings, while the LICENSE rules and the
-`___INFO___` structural rules still fail the build. If `metadata.yaml` is ever restored the script
-re-arms the full contract automatically, with no edit needed.
+So deleting `metadata.yaml` freezes a template; it does not delist it. `template.tpl` was deleted
+as well, breaking the repository structure the gallery requires, which the same documentation says
+causes removal. Along with it went `scripts/validate-gallery.py` and
+`.github/workflows/validate-gallery.yml` — with no template in the repository they had nothing left
+to validate. Both are recoverable from tag `v1.0.1`.
+
+A side effect worth knowing: because the gallery froze at `8b2237f`, **no release cut here ever
+reached gallery users.** `v1.0.0` and `v1.0.1` exist in GitHub and in the changelog, and were never
+served.
+
+This is also why the sibling `axeptio/axeptio-gtm-public-template` has a `Release` tail that
+regenerates `metadata.yaml` and pushes a GPG-signed sync commit, and this repository does not.
+**Do not port that step here.** This repository needs only `BOT_GITHUB_TOKEN`, never
+`BOT_GPG_PRIVATE_KEY`.
 
 ## Authentication
 

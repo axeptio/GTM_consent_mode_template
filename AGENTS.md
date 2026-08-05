@@ -174,11 +174,12 @@ CI is down to `Lint commits` (every PR) and `Release` (pushes to `master`).
   generated. See [docs/release-automation.md](docs/release-automation.md). The versioning baseline
   is the `v1.0.0` tag at `4ea6d9d`; the twelve commits below it predate this pipeline and are not
   conventional.
-- **Do not change `LICENSE`.** The gallery removes a template whose licence is not Apache-2.0-only
-  — replacing it with Axeptio's proprietary terms is what caused SUP-1008 on the sibling
-  repository. Nothing enforces this any more now that the validator is gone, so it rests on
-  review. Keeping it intact is also what let `template.tpl` be the file deleted to force
-  delisting, rather than the licence.
+- **`LICENSE` carries a deliberate deprecation notice above the Apache 2.0 text.** The gallery
+  removes a template whose licence is not Apache-2.0-only — that is what caused SUP-1008 on the
+  sibling repository, within ~24h — and after the `metadata.yaml` and `template.tpl` deletions
+  both failed to delist, that notice is what forces removal. The Apache 2.0 text below it is
+  **unchanged and still applies in full**; the edit is purely additive. Do not remove the notice
+  except as part of a deliberate resubmission, and never touch the licence text itself.
 - **No metadata-sync release step.** The sibling repo's `Release` workflow has a tail that
   regenerates `metadata.yaml` and pushes a GPG-signed commit. It does not apply here and must not
   be ported; this repo needs only `BOT_GITHUB_TOKEN`, not `BOT_GPG_PRIVATE_KEY`.

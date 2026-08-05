@@ -1,3 +1,25 @@
+IMPORTANT LICENSE NOTICE
+========================
+
+This project is deprecated and archived. It was the source for the "Axeptio
+Consent Mode v2" Google Tag Manager custom template, superseded by "Axeptio CMP"
+at https://github.com/axeptio/axeptio-gtm-public-template
+
+This notice is deliberate. The Google Tag Manager Community Template Gallery
+requires a listed template's LICENSE file to contain ONLY the Apache 2.0 text,
+and removes any template whose licence does not match. Deleting metadata.yaml
+(March 2026) and then template.tpl (August 2026) both failed to delist this
+template: the gallery detected each change, failed its sync, and carried on
+serving a February 2025 commit. This notice is the remaining trigger, and the
+only one with direct evidence behind it.
+
+The Apache License 2.0 below is unchanged and still applies in full, to this
+repository and to every copy of it. Nothing about your rights to this code has
+been reduced. If this template is ever resubmitted to the gallery, delete this
+notice -- and only this notice -- to restore the licence to its required form.
+
+--------------------------------------------------------------------------------
+
                                  Apache License
                            Version 2.0, January 2004
                         http://www.apache.org/licenses/

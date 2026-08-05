@@ -15,11 +15,16 @@ This template is distributed under the [Apache License 2.0](./LICENSE). By
 submitting a contribution you agree that it is provided under, and may be
 redistributed as part of this project under, that licence.
 
-The `LICENSE` file must contain **only** Apache 2.0. The
+The Apache 2.0 text in `LICENSE` is **unchanged and applies in full.** A deprecation notice has
+been prepended to it *on purpose*: the
 [Community Template Gallery](https://developers.google.com/tag-platform/tag-manager/templates/gallery)
-removes a template whose licence does not match — that is what happened in SUP-1008 — and while
-this template is currently delisted (see below), the constraint is kept so the repository stays
-resubmittable. **Do not change `LICENSE`.**
+requires a listed template's `LICENSE` to contain **only** Apache 2.0 and removes any template whose
+licence does not match — which is what happened in SUP-1008, within about 24 hours. After deleting
+`metadata.yaml` and then `template.tpl` both failed to delist this template, that notice is what
+finally forces removal. See [docs/release-automation.md](./docs/release-automation.md).
+
+**Do not remove the notice** unless the template is being deliberately resubmitted to the gallery,
+and **do not touch the Apache 2.0 text below it** under any circumstances.
 
 ## Code reviews
 
@@ -37,15 +42,17 @@ commit it had read successfully (`8b2237f`, February 2025) — still installable
 documentation link.
 
 `template.tpl` was therefore deleted too, breaking the repository structure the gallery requires.
-The template file remains in the history and at tag `v1.0.1`.
+The template file remains in the history and at tag `v1.0.1`. That did not delist it either.
 
 With no template left to check, `scripts/validate-gallery.py` and its `Validate gallery contract`
 workflow were removed in the same change. If the template is ever restored, recover both from
 tag `v1.0.1` — the script's `LISTED` flag already handles the listed and delisted cases, and
 restoring `metadata.yaml` re-arms the full contract automatically.
 
-**`LICENSE` must still contain only Apache 2.0.** Nothing enforces that any more, so it now rests
-on review.
+Finally, a deprecation notice was prepended to `LICENSE`, breaking the gallery's "only Apache 2.0"
+requirement. This is the only lever with direct evidence behind it: SUP-1008 saw the sibling
+repository delisted within roughly 24 hours of its licence ceasing to be Apache-2.0-only. The
+Apache 2.0 text itself is untouched — the change is purely additive.
 
 ## Commit & pull request conventions
 

@@ -25,8 +25,16 @@ the template listed and installable at the last commit it had successfully read
 (`8b2237f`, February 2025).
 
 Deleting `metadata.yaml` stops the gallery from *updating* a template; it does not *delist* it.
-Removing `template.tpl` breaks the required repository structure, which the same documentation
-says causes removal from the gallery.
+Removing `template.tpl` breaks the required repository structure, which the same documentation says
+causes removal — and that did not delist it either.
+
+What works is the licence. The gallery requires a listed template's `LICENSE` to contain **only**
+the Apache 2.0 text, and removes any template whose licence does not match; we have seen that take
+effect within about 24 hours. `LICENSE` therefore now carries a deprecation notice above the
+licence text.
+
+**This does not affect your rights to this code.** The change is purely additive — the Apache
+License 2.0 is unchanged and still applies in full, to this repository and to every copy of it.
 
 ## Documentation
 

@@ -70,9 +70,26 @@ causes removal. Along with it went `scripts/validate-gallery.py` and
 `.github/workflows/validate-gallery.yml` — with no template in the repository they had nothing left
 to validate. Both are recoverable from tag `v1.0.1`.
 
+**That did not delist it either.** The status page was unchanged after the deletion landed.
+
+What finally works is the licence. The gallery requires a listed template's `LICENSE` to contain
+*only* the Apache 2.0 text, and removes any template whose licence does not match — observed
+directly in SUP-1008, where the sibling repository was delisted within roughly 24 hours of its
+licence being replaced. A deprecation notice was therefore prepended to `LICENSE`. The change is
+**purely additive**: the Apache 2.0 text is untouched and still applies in full, so no rights are
+withdrawn from anyone, while the file no longer satisfies the gallery's "only Apache 2.0" rule.
+
+The ranking that emerges, for anyone who needs to do this again:
+
+| Lever | Effect |
+| --- | --- |
+| delete `metadata.yaml` | freezes the template at the last good commit; **does not delist** |
+| delete `template.tpl` | breaks the required structure; **did not delist** here either |
+| make `LICENSE` not-only-Apache-2.0 | **delists**, ~24h (SUP-1008) |
+
 A side effect worth knowing: because the gallery froze at `8b2237f`, **no release cut here ever
-reached gallery users.** `v1.0.0` and `v1.0.1` exist in GitHub and in the changelog, and were never
-served.
+reached gallery users.** `v1.0.0`, `v1.0.1` and `v2.0.0` exist in GitHub and in the changelog, and
+were never served.
 
 This is also why the sibling `axeptio/axeptio-gtm-public-template` has a `Release` tail that
 regenerates `metadata.yaml` and pushes a GPG-signed sync commit, and this repository does not.
